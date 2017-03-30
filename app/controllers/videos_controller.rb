@@ -1,4 +1,5 @@
-class VideosController < ActionController::Base
+class VideosController < ApplicationController
+  before_action :require_user
 
   layout 'application'
 
@@ -10,12 +11,8 @@ class VideosController < ActionController::Base
   end
 
   def details
-    title = params[:title].split('_')
-    title.map do |word|
-      word.capitalize!
-    end
-    title = title.join(' ')
-    @video = Video.find_by({ title: title })
+    @video = Video.find(params[:id])
+    @reviews = @video.reviews
 
     render 'videos/details'
   end
