@@ -16,7 +16,7 @@ describe QueueItemsController do
     #   expect(response).to redirect_to(sign_in_path)
     # end
 
-    it_behaves_like 'require sign in' do
+    it_behaves_like 'requires sign in' do
       let(:action) { get :index }
     end
   end
@@ -74,7 +74,7 @@ describe QueueItemsController do
     #   expect(response).to redirect_to(sign_in_path)
     # end
 
-    it_behaves_like 'require sign in' do
+    it_behaves_like 'requires sign in' do
       let(:action) { post :create, video_id: video.id }
     end
   end
@@ -119,7 +119,7 @@ describe QueueItemsController do
     #   expect(response).to redirect_to(sign_in_path)
     # end
 
-    it_behaves_like 'require sign in' do
+    it_behaves_like 'requires sign in' do
       let(:action) { delete :destroy, id: 1 }
     end
   end
@@ -188,7 +188,7 @@ describe QueueItemsController do
     #   end
     # end
 
-    it_behaves_like 'require sign in' do
+    it_behaves_like 'requires sign in' do
       let(:action) do
         post :update_queue, queue_items: [{id: 2, position: 2}, {id: 10, position: 3}]
       end
