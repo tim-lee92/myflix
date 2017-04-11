@@ -8,7 +8,7 @@ feature 'User interacts with the queue' do
     kripp = Fabricate(:video, title: 'Kripp', category: comedies)
 
     sign_in
-    
+
     add_video_to_queue(h3h3)
     expect_video_to_be_in_queue(h3h3)
 
@@ -58,7 +58,8 @@ feature 'User interacts with the queue' do
 
   def add_video_to_queue(video)
     visit home_path
-    find("a[href='/videos/#{video.id}']").click
+    # find("a[href='/videos/#{video.id}']").click
+    click_on_video_on_home_page(video)
     click_link "+ My Queue"
   end
 
