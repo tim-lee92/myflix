@@ -13,6 +13,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+dump.rdb
 
 # Ignore the database.yml file
 config/database.yml

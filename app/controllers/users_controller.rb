@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(params.require(:user).permit!)
     if @user.save
       handle_invitation
-      AppMailer.send_welcome_email(@user).deliver
+      AppMailer.delay.send_welcome_email(@user)
       redirect_to sign_in_path
     else
       render :new
