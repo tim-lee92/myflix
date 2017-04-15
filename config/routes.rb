@@ -7,7 +7,7 @@ Myflix::Application.routes.draw do
 
   get '/home', to: 'videos#home', as: 'home'
   get '/videos/search', to: 'videos#search'
-  get '/videos/:id', to: 'videos#details'
+  get '/videos/:id', to: 'videos#details', as: 'video'
   post '/videos/:video_id/reviews/create', to: 'reviews#create', as: 'video_reviews'
   get 'register', to: 'users#new'
   get 'register/:token', to: 'users#new_with_invitation_token', as: 'register_with_token'
@@ -34,4 +34,8 @@ Myflix::Application.routes.draw do
   get 'expired_token', to: 'pages#expired_token'
 
   resources :invitations, only: [:new, :create]
+
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
 end
