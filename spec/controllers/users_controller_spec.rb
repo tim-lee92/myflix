@@ -10,22 +10,22 @@ describe UsersController do
 
   describe 'POST create' do
     context 'with valid input' do
-      before do
-        post :create, user: Fabricate.attributes_for(:user)
-      end
+      after { ActionMailer::Base.deliveries.clear }
 
       it 'creates the user' do
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: 'tok_visa'
         expect(User.count).to eq(1)
       end
 
       it 'redirects to the sign in page' do
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: 'tok_visa'
         expect(response).to redirect_to(sign_in_path)
       end
 
       it 'makes the user follow the inviter' do
         jacky = Fabricate(:user)
         invitation = Fabricate(:invitation, inviter: jacky, recipient_email: 'example@example.com')
-        post :create, user: { email: 'example@example.com', password: 'password', full_name: 'Example Name'}, invitation_token: invitation.token
+        post :create, user: { email: 'example@example.com', password: 'password', full_name: 'Example Name'}, invitation_token: invitation.token, stripeToken: 'tok_visa'
         user = User.where(email: 'example@example.com').first
         expect(user.follows?(jacky)).to be_truthy
       end
@@ -33,7 +33,7 @@ describe UsersController do
       it 'makes the inviter follow the user' do
         jacky = Fabricate(:user)
         invitation = Fabricate(:invitation, inviter: jacky, recipient_email: 'example@example.com')
-        post :create, user: { email: 'example@example.com', password: 'password', full_name: 'Example Name'}, invitation_token: invitation.token
+        post :create, user: { email: 'example@example.com', password: 'password', full_name: 'Example Name'}, invitation_token: invitation.token, stripeToken: 'tok_visa'
         user = User.where(email: 'example@example.com').first
         expect(jacky.follows?(user)).to be_truthy
       end
@@ -41,7 +41,7 @@ describe UsersController do
       it 'expires the invitation upon acceptance' do
         jacky = Fabricate(:user)
         invitation = Fabricate(:invitation, inviter: jacky, recipient_email: 'example@example.com')
-        post :create, user: { email: 'example@example.com', password: 'password', full_name: 'Example Name'}, invitation_token: invitation.token
+        post :create, user: { email: 'example@example.com', password: 'password', full_name: 'Example Name'}, invitation_token: invitation.token, stripeToken: 'tok_visa'
         expect(Invitation.first.token).to be_nil
       end
     end
@@ -70,12 +70,12 @@ describe UsersController do
       end
 
       it 'sends out email to the user with valid inputs' do
-        post :create, user: { email: 'kx@example.com', password: 'password', full_name: 'Kevin X'}
+        post :create, user: { email: 'kx@example.com', password: 'password', full_name: 'Kevin X'}, stripeToken: 'tok_visa'
         expect(ActionMailer::Base.deliveries.last.to).to eq(['kx@example.com'])
       end
 
       it 'sends out email containing the user\'s name with valid inputs' do
-        post :create, user: { email: 'kx@example.com', password: 'password', full_name: 'Kevin X'}
+        post :create, user: { email: 'kx@example.com', password: 'password', full_name: 'Kevin X'}, stripeToken: 'tok_visa'
         expect(ActionMailer::Base.deliveries.last.body).to include('Kevin X')
       end
 

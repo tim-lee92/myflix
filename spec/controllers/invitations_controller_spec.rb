@@ -20,6 +20,8 @@ describe InvitationsController do
     end
 
     context 'with valid input' do
+      after { ActionMailer::Base.deliveries.clear }
+
       it 'redirects to the invitation new page' do
         set_current_user
         post :create, invitation: { recipient_name: 'John L', recipient_email: 'john@example.com', message: 'Please join me!'}
