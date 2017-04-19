@@ -24,6 +24,11 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
 end
 
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+Capybara.javascript_driver = :chrome
+
 Capybara.server_port = 52662
 
 RSpec.configure do |config|
