@@ -20,7 +20,3 @@ config/database.yml
 
 # Ignore application configuration
 /config/application.yml
-
-# Temporarily disabling Selenium tests
-/spec/features/user_registers_spec.rb
-/spec/features/user_invites_friend_spec.rb
