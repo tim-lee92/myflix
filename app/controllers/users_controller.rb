@@ -7,20 +7,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params.require(:user).permit!)
-    if @user.save
-      handle_invitation
+    result = UserSignup.new(@user).sign_up(params[:stripeToken], params[:invitation_token])
 
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-      Stripe::Charge.create(
-        card: params[:stripeToken],
-        amount: 999,
-        currency: 'usd',
-        description: 'Sign up charge'
-      )
-
-      AppMailer.delay.send_welcome_email(@user)
+    if result.successful?
+      flash[:success] = 'Thank you for registering. Please sign in now.'
       redirect_to sign_in_path
     else
+      flash[:error] = result.error_message
       render :new
     end
   end
@@ -37,17 +30,6 @@ class UsersController < ApplicationController
       render :new
     else
       redirect_to expired_token_path
-    end
-  end
-
-  private
-
-  def handle_invitation
-    if params[:invitation_token].present?
-      invitation = Invitation.where(token: params[:invitation_token]).first
-      @user.follow(invitation.inviter)
-      invitation.inviter.follow(@user)
-      invitation.update_column(:token, nil)
     end
   end
 end

@@ -11,7 +11,7 @@ class VideosController < ApplicationController
   end
 
   def details
-    @video = Video.find(params[:id])
+    @video = VideoDecorator.decorate(Video.find(params[:id]))
     @reviews = @video.reviews
 
     render 'videos/details'
