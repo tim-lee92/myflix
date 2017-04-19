@@ -18,7 +18,6 @@ deployment:
       - heroku run rake db:migrate --app myflix-stage-timlee92
       - heroku maintenance:off --app myflix-stage-timlee92
 dependencies:
-  post:
-    - mkdir drivers
-    - wget https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz && tar -zxvf geckodriver-v0.15.0-linux64.tar.gz:
-        pwd: drivers
+  pre:
+    - sudo apt-get update; sudo apt-get install firefox=52.0.2+build1-0ubuntu0.12.04.1
+    - wget https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz && tar -zxvf geckodriver-v0.15.0-linux64.tar.gz
