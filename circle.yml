@@ -17,3 +17,7 @@ deployment:
       - git push git@heroku.com:myflix-stage-timlee92.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app myflix-stage-timlee92
       - heroku maintenance:off --app myflix-stage-timlee92
+dependencies:
+  pre:
+    - sudo apt-get update; sudo apt-get install firefox=52.0.2+build1-0ubuntu0.12.04.1
+    - wget https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz && tar -zxvf geckodriver-v0.15.0-linux64.tar.gz

@@ -20,4 +20,13 @@ class Video < ActiveRecord::Base
 
     result
   end
+
+  def rating
+    total_score = 0
+    reviews.each do |review|
+      total_score += review.rating
+    end
+
+    (total_score.to_f / reviews.count).round(2)
+  end
 end

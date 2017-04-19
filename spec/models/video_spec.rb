@@ -69,4 +69,15 @@ describe Video do
     end
 
   end
+
+  describe '.rating' do
+    it 'should return an average rating score' do
+      video = Fabricate(:video)
+      review1 = Fabricate(:review, rating: 5, video_id: video.id)
+      review1 = Fabricate(:review, rating: 2, video_id: video.id)
+      review1 = Fabricate(:review, rating: 3, video_id: video.id)
+      review1 = Fabricate(:review, rating: 3, video_id: video.id)
+      expect(video.rating).to eq(3.25)
+    end
+  end
 end
