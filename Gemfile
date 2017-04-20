@@ -20,6 +20,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'carrierwave-aws'
 gem 'stripe'
+gem 'stripe_event'
 gem 'figaro'
 gem 'draper'
 

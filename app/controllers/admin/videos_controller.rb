@@ -1,6 +1,4 @@
-class Admin::VideosController < ApplicationController
-  before_action :require_user
-  before_action :require_admin
+class Admin::VideosController < AdminsController
 
   def new
     @video = Video.new
@@ -14,15 +12,6 @@ class Admin::VideosController < ApplicationController
     else
       flash[:error] = 'Please check your inputs'
       render :new
-    end
-  end
-
-  private
-
-  def require_admin
-    if !current_user.admin?
-      flash[:error] = 'You do not have the correct permissions.'
-      redirect_to home_path
     end
   end
 end

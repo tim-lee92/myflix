@@ -4,6 +4,7 @@ Myflix::Application.routes.draw do
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+  mount StripeEvent::Engine => '/stripe_events'
 
   get '/home', to: 'videos#home', as: 'home'
   get '/videos/search', to: 'videos#search'
@@ -37,5 +38,6 @@ Myflix::Application.routes.draw do
 
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
 end
