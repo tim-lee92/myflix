@@ -5,7 +5,7 @@ machine:
     - elasticsearch
 deployment:
   production:
-  a  branch: master
+    branch: master
     commands:
       - heroku maintenance:on --app myflix-timlee92
       - heroku pg:backups capture --app myflix-timlee92
