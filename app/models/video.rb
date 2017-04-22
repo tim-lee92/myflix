@@ -1,6 +1,9 @@
 class Video < ActiveRecord::Base
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks  #Add ActiveRecord callbacks on the models to automatically send to Elasticsearch
+  # include Elasticsearch::Model::Callbacks  #Add ActiveRecord callbacks on the models to automatically send to Elasticsearch
+  after_commit on: [:create] do
+    __elasticsearch__.index_document
+  end
 
   index_name ['myflix', Rails.env].join('-')
 
