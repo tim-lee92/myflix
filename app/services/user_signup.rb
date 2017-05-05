@@ -7,14 +7,16 @@ class UserSignup
 
   def sign_up(stripe_token, invitation_token)
     if @user.valid?
-      charge = StripeWrapper::Charge.create(
+      customer = StripeWrapper::Customer.create(
+        user: @user,
         card: stripe_token,
         amount: 999,
         currency: 'usd',
         description: 'Sign up charge'
       )
 
-      if charge.successful?
+      if customer.successful?
+        @user.customer_token = customer.customer_token
         @user.save
         handle_invitation(invitation_token)
         AppMailer.delay.send_welcome_email(@user)
@@ -22,7 +24,7 @@ class UserSignup
         self
       else
         @status = :failed
-        @error_message = charge.error_message
+        @error_message = customer.error_message
         self
       end
     else

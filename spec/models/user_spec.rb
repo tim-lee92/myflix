@@ -56,4 +56,12 @@ describe User do
       expect(lily.follows?(lily)).to be_falsey
     end
   end
+
+  describe '#deactivate!' do
+    it 'deactivates an user' do
+      lily = Fabricate(:user, active: true)
+      lily.deactivate!
+      expect(lily).not_to be_active
+    end
+  end
 end
